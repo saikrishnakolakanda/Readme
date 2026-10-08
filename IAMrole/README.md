@@ -4,17 +4,29 @@ It uses members (users/service accounts) + roles + permissions to control access
 Simple example:
 Developer → Viewer role → GCP Project
 
-2. Identity Federation
-Identity Federation allows users or applications from another identity provider to access GCP without creating or storing GCP passwords/keys.
-GCP trusts the external identity provider and gives temporary access.
-Simple example:
-GitHub Actions → Workload Identity Federation → GCP
-
-3. Service Account
+2. Service Account
 A service account is a special Google identity used by applications, VMs, pipelines, and automation, rather than a human.
 It can be given IAM roles so that an application can access specific GCP resources.
 Simple example:
 Jenkins → Service Account → GCP resources
+
+3. Workload Identity
+Workload Identity allows a workload running inside GCP, especially GKE, to access Google Cloud resources using an identity instead of storing service account keys.
+Example:
+GKE Pod → Workload Identity → Google Service Account → Cloud Storage
+So, the application running in a GKE Pod can access GCS, Secret Manager, etc., without a JSON key file.
+
+4. Workload Identity Federation (WIF)
+Workload Identity Federation allows workloads running outside GCP to access GCP resources without creating or storing service account keys.
+GCP trusts an external identity provider such as GitHub Actions, AWS, Azure, or another OIDC provider.
+Example:
+GitHub Actions
+      ↓
+Workload Identity Federation
+      ↓
+GCP Service Account
+      ↓
+GCP Resources
 
 IAM role to a Google user account. The user first needs a Google account (for example, yourname@gmail.com), and then you add that email as a principal and assign the required role.
 
